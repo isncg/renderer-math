@@ -15,7 +15,19 @@ namespace RendererMath
 
             Console.WriteLine(mat);
             Console.WriteLine(mat.Det);
-            Console.WriteLine(mat.Reversed);
+            Console.WriteLine(mat.Inv);
+            
+            Console.WriteLine("\n\nTriangle");
+            Triangle t = new Triangle(Vector3.Zero, new Vector3(1, 0, 0), new Vector3(0, 2, 0));
+            //Console.WriteLine(t.PlaneNormal);
+            Console.WriteLine(t);
+            Console.WriteLine("\n\nRay");
+            Ray ray = new Ray(new Vector3(0, 0, 100), new Vector3(0.2, 0.3, -1));
+            Console.WriteLine(ray);
+
+            Console.WriteLine("\n\nIntersection");
+            var intec = ray.IntersectionTest(t);
+            Console.WriteLine(intec);
         }
     }
 }

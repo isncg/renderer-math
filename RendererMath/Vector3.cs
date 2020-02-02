@@ -10,6 +10,15 @@ namespace RendererMath
         public virtual double Y { get; set; }
         public virtual double Z { get; set; }
 
+        public override string ToString()
+        {
+            return string.Format("{0,10} {1,10} {2,10}",
+                string.Format("{0:#.0000}", X),
+                string.Format("{0:#.0000}", Y),
+                string.Format("{0:#.0000}", Z)
+                );
+        }
+
         public double MagnitudeSqr
         {
             get
@@ -32,6 +41,111 @@ namespace RendererMath
             X /= l;
             Y /= l;
             Z /= l;
+        }
+
+        public void Assign(double x, double y, double z)
+        {
+            X = x;
+            Y = y;
+            Z = z;
+        }
+
+        public void Assign(Vector3 copyfrom)
+        {
+            X = copyfrom.X;
+            Y = copyfrom.Y;
+            Z = copyfrom.Z;
+        }
+
+        public void Assign(double[] xyz)
+        {
+            X = xyz[0];
+            Y = xyz[1];
+            Z = xyz[2];
+        }
+
+        public Vector3()
+        { }
+
+        public Vector3(double x, double y, double z)
+        {
+            Assign(x, y, z);
+        }
+
+        public Vector3(Vector3 copyfrom)
+        {
+            Assign(copyfrom);
+        }
+
+        public Vector3(double[] xyz)
+        {
+            Assign(xyz);
+        }
+
+        public static Vector3 Zero { get { return new Vector3(0, 0, 0); } }
+        public static Vector3 One { get { return new Vector3(1, 1, 1); } }
+
+        public static Vector3 Sub(Vector3 left, Vector3 right)
+        {
+            return new Vector3(left.X - right.X, left.Y - right.Y, left.Z - right.Z);
+        }
+
+        public static Vector3 operator -(Vector3 left, Vector3 right)
+        {
+            return Sub(left, right);
+        }
+
+        public static Vector3 Plus(Vector3 left, Vector3 right)
+        {
+            return new Vector3(left.X + right.X, left.Y + right.Y, left.Z + right.Z);
+        }
+
+        public static Vector3 operator +(Vector3 left, Vector3 right)
+        {
+            return Plus(left, right);
+        }
+
+        public static Vector3 Minus(Vector3 vec)
+        {
+            return new Vector3(-vec.X, -vec.Y, -vec.Z);
+        }
+
+        public static Vector3 operator -(Vector3 vec)
+        {
+            return Minus(vec);
+        }
+
+        public static Vector3 Mul(Vector3 vec, double val)
+        {
+            return new Vector3(vec.X * val, vec.Y * val, vec.Z * val);
+        }
+
+        public static Vector3 operator *(Vector3 vec, double val)
+        {
+            return Mul(vec, val);
+        }
+
+        public static double Dot(Vector3 left, Vector3 right)
+        {
+            return left.X * right.X + left.Y * right.Y + left.Z * right.Z;
+        }
+
+        public static double operator *(Vector3 left, Vector3 right)
+        {
+            return Dot(left, right);
+        }
+
+        public static Vector3 Cross(Vector3 left, Vector3 right)
+        {
+            var x = left.Y * right.Z - left.Z * right.Y;
+            var y = left.Z * right.X - left.X * right.Z;
+            var z = left.X * right.Y - left.Y * right.Z;
+            return new Vector3(x, y, z);
+        }
+
+        public static Vector3 operator ^(Vector3 left, Vector3 right)
+        {
+            return Cross(left, right);
         }
     }
 }

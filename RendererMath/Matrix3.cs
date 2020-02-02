@@ -45,6 +45,15 @@ namespace RendererMath
             m31 = values[2][0]; m32 = values[2][1]; m33 = values[2][2];
         }
 
+        public static Matrix3 FromColumnVectors(Vector3 col1, Vector3 col2, Vector3 col3)
+        {
+            var ret = new Matrix3();
+            ret.m11 = col1.X; ret.m21 = col1.Y; ret.m31 = col1.Z;
+            ret.m12 = col2.X; ret.m22 = col2.Y; ret.m32 = col2.Z;
+            ret.m13 = col3.X; ret.m23 = col3.Y; ret.m33 = col3.Z;
+            return ret;
+        }
+
         public override string ToString()
         {
             return string.Format("\n{0,10} {1,10} {2,10}\n{3,10} {4,10} {5,10}\n{6,10} {7,10} {8,10}",
@@ -80,7 +89,22 @@ namespace RendererMath
         }
 
 
-        public Matrix3 Reversed
+        public static Vector3 Mul(Matrix3 mat, Vector3 vec)
+        {
+            var ret = new Vector3();
+            ret.X = mat.m11 * vec.X + mat.m12 * vec.Y + mat.m13 * vec.Z;
+            ret.Y = mat.m21 * vec.X + mat.m22 * vec.Y + mat.m23 * vec.Z;
+            ret.Z = mat.m31 * vec.X + mat.m32 * vec.Y + mat.m33 * vec.Z;
+            return ret;
+        }
+
+        public static Vector3 operator * (Matrix3 mat, Vector3 vec)
+        {
+            return Mul(mat, vec);
+        }
+
+
+        public Matrix3 Inv
         {
             // m11, m12, m13;
             // m21, m22, m23;
