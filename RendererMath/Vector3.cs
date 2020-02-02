@@ -10,6 +10,11 @@ namespace RendererMath
         public virtual double Y { get; set; }
         public virtual double Z { get; set; }
 
+        public double[] ToArray()
+        {
+            return new double[3] { X, Y, Z };
+        }
+
         public override string ToString()
         {
             return string.Format("{0,10} {1,10} {2,10}",
