@@ -1,14 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Text;
 
 namespace RendererMath
 {
-    class Vector3
+    public class Vector3
     {
         public virtual double X { get; set; }
         public virtual double Y { get; set; }
         public virtual double Z { get; set; }
+
+        public virtual bool IsZero
+        {
+            get
+            {
+                return MagnitudeSqr > 0;
+            }
+        }
 
         public double[] ToArray()
         {
@@ -144,7 +153,7 @@ namespace RendererMath
         {
             var x = left.Y * right.Z - left.Z * right.Y;
             var y = left.Z * right.X - left.X * right.Z;
-            var z = left.X * right.Y - left.Y * right.Z;
+            var z = left.X * right.Y - left.Y * right.X;
             return new Vector3(x, y, z);
         }
 
@@ -152,5 +161,23 @@ namespace RendererMath
         {
             return Cross(left, right);
         }
+
+        public Color ToColor()
+        {
+            int R = (int)(X * 255);
+            int G = (int)(Y * 255);
+            int B = (int)(Z * 255);
+            if (R > 255) R = 255; if (R < 0) R = 0;
+            if (G > 255) G = 255; if (G < 0) G = 0;
+            if (B > 255) B = 255; if (B < 0) B = 0;
+
+            return Color.FromArgb(R,G,B);
+        }
+
+    }
+
+    public class ZeroVector3 : Vector3
+    {
+        public override bool IsZero => true;
     }
 }

@@ -37,5 +37,8 @@ namespace RendererMath
                 return ret;
             }
         }
+
+
+        public Material material = null;
     }
 }

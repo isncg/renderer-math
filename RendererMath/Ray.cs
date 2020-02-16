@@ -6,8 +6,8 @@ namespace RendererMath
 {
     class Ray
     {
-        Vector3 origin;
-        Vector3 direction;
+        public Vector3 origin;
+        public Vector3 direction;
 
         public Ray(Vector3 origin, Vector3 direction)
         {
