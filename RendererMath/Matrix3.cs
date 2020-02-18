@@ -54,6 +54,17 @@ namespace RendererMath
             return ret;
         }
 
+        public static Matrix3 RandomRotate(Random random)
+        {
+            Vector3 randX = Vector3.Random(random);
+            randX.Normalize();
+            Vector3 randY = Vector3.Random(random);
+            Vector3 randZ = randX ^ randY;
+            randZ.Normalize();
+            randY = randZ ^ randX;
+            return FromColumnVectors(randX, randY, randZ);
+        }
+
         public override string ToString()
         {
             return string.Format("\n{0,10} {1,10} {2,10}\n{3,10} {4,10} {5,10}\n{6,10} {7,10} {8,10}",

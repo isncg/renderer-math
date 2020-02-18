@@ -67,11 +67,14 @@ namespace RendererMath
             //var randomDirections = RandomDirections.Get();
             //int cnt = (int)Math.Pow(16, depth);
             List<Vector3> dist = SphericalCode.DepthDestMap[depth];
+            var randMat = Matrix3.RandomRotate(random);
             for (int ri = 0; ri < dist.Count; ri++)
             {
-                var dir = new Vector3(random.NextDouble() - 0.5, random.NextDouble() - 0.5, random.NextDouble() - 0.5);
-                dir *= 0.2;
-                dir += dist[ri];
+                //var dir = new Vector3(random.NextDouble() - 0.5, random.NextDouble() - 0.5, random.NextDouble() - 0.5);
+                //dir *= 0.2;
+                //dir += dist[ri];
+
+                var dir = randMat * dist[ri];
                 dir.Normalize();
                 var commingLight = Trace(new Ray(firstIntersection.HitPoint, dir), triangles, depth - 1);
                 foreach (var f in mat.lightDistributions)
@@ -170,7 +173,7 @@ namespace RendererMath
         }
 
 
-        public Vector3[,] Capture(List<Triangle> triangles, int depth)
+        public Vector3[,] Render(List<Triangle> triangles, int depth)
         {
             //direction.Normalize();
             Vector3[,] result = new Vector3[height, width];

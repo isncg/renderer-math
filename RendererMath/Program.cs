@@ -83,19 +83,27 @@ namespace RendererMath
             var pos = new Vector3(1.5, 5, 3);
             var dir = new Vector3(-1.5, -3, -3);
             var up = new Vector3(0, 1, 0);
-            int width = 400;
-            int height = 300;
+            int width = 800;
+            int height = 600;
 
             cam.Setup(pos, dir, up, width, height);
             var depthMap = cam.DepthScan(triangles, 1.0, 20.0);
             Camera.GenImage(depthMap).Save("depth.jpg");    
 
-            var intersection = cam.IntersectionTest(cam.pixelRays[145, 230], triangles);
-
+            var intersection = cam.IntersectionTest(cam.pixelRays[100, 150], triangles);
+            var co = cam.Trace(cam.pixelRays[100, 150], triangles, 2);
             List<Vector3[,]> frames = new List<Vector3[,]>();
             for (int i = 0; i < 100; i++)
             {
-                var frame = cam.Capture(triangles,2);
+                //RenderTaskManager mgr = new RenderTaskManager();
+                //mgr.CreateTask(2, cam, triangles, 2);
+                //var frame = mgr.Run();
+                //frames.Add(frame);
+                //var bmp = Camera.GenImage(frames);
+                //Console.WriteLine("Frame_{0}: {1}", i, mgr.endTime - mgr.startTime);
+                //bmp.Save(string.Format("frame_{0}.jpg", i));
+
+                var frame = cam.Render(triangles, 2);
                 frames.Add(frame);
                 var bmp = Camera.GenImage(frames);
                 bmp.Save(string.Format("frame_{0}.jpg", i));

@@ -174,6 +174,11 @@ namespace RendererMath
             return Color.FromArgb(R,G,B);
         }
 
+        public static Vector3 Random(Random random)
+        {
+            return new Vector3(random.NextDouble() - 0.5, random.NextDouble() - 0.5, random.NextDouble() - 0.5);
+        }
+
     }
 
     public class ZeroVector3 : Vector3
