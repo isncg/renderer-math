@@ -65,10 +65,13 @@ namespace RendererMath
 
             Vector3 sum = Vector3.Zero;
             //var randomDirections = RandomDirections.Get();
-            int cnt = (int)Math.Pow(16, depth);
-            for (int ri = 0; ri < cnt; ri++)
+            //int cnt = (int)Math.Pow(16, depth);
+            List<Vector3> dist = SphericalCode.DepthDestMap[depth];
+            for (int ri = 0; ri < dist.Count; ri++)
             {
                 var dir = new Vector3(random.NextDouble() - 0.5, random.NextDouble() - 0.5, random.NextDouble() - 0.5);
+                dir *= 0.2;
+                dir += dist[ri];
                 dir.Normalize();
                 var commingLight = Trace(new Ray(firstIntersection.HitPoint, dir), triangles, depth - 1);
                 foreach (var f in mat.lightDistributions)
@@ -82,7 +85,7 @@ namespace RendererMath
 
                 }
             }
-            sum *= 1.0 / cnt;
+            sum *= 1.0 / dist.Count;
             Vector3 result = sum + mat.Ambient(firstIntersection.triangle.PlaneNormal, -ray.direction);
 
             return result;
