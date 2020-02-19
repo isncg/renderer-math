@@ -54,11 +54,11 @@ namespace RendererMath
             return ret;
         }
 
-        public static Matrix3 RandomRotate(Random random)
+        public static Matrix3 RandomRotate()
         {
-            Vector3 randX = Vector3.Random(random);
+            Vector3 randX = Vector3.Random();
             randX.Normalize();
-            Vector3 randY = Vector3.Random(random);
+            Vector3 randY = Vector3.Random();
             Vector3 randZ = randX ^ randY;
             randZ.Normalize();
             randY = randZ ^ randX;

@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Text;
+
 
 namespace RendererMath
 {
+   
     class Camera
     {
         Material defaultMat = new TypicalMaterial();
-        Random random = new Random();
+        //Random random = new Random();
 
         public Vector3 position = null;
         public Vector3 direction = null;
@@ -67,7 +68,7 @@ namespace RendererMath
             //var randomDirections = RandomDirections.Get();
             //int cnt = (int)Math.Pow(16, depth);
             List<Vector3> dist = SphericalCode.DepthDestMap[depth];
-            var randMat = Matrix3.RandomRotate(random);
+            var randMat = Matrix3.RandomRotate();
             for (int ri = 0; ri < dist.Count; ri++)
             {
                 //var dir = new Vector3(random.NextDouble() - 0.5, random.NextDouble() - 0.5, random.NextDouble() - 0.5);
@@ -173,7 +174,7 @@ namespace RendererMath
         }
 
 
-        public Vector3[,] Render(List<Triangle> triangles, int depth)
+        public Vector3[,] Render(List<Triangle> triangles, int depth, Random random)
         {
             //direction.Normalize();
             Vector3[,] result = new Vector3[height, width];
@@ -215,7 +216,15 @@ namespace RendererMath
             {
                 for (int j = 0; j < width; j++)
                 {
-                    bmp.SetPixel(j, i, frame[i, j].ToColor());
+                    var v = frame[i, j];
+                    if (v != null)
+                    {
+                        bmp.SetPixel(j, i, frame[i, j].ToColor());
+                    }
+                    else
+                    {
+                        bmp.SetPixel(j, i, Color.Red);
+                    }
                 }
             }
             return bmp;
@@ -233,7 +242,8 @@ namespace RendererMath
                     Vector3 sum = Vector3.Zero;
                     foreach (var f in frames)
                     {
-                        sum += f[i, j];
+                        if (f[i, j] != null)
+                            sum += f[i, j];
                     }
                     sum *= (1.0 / frames.Count);
                     //bmp.SetPixel(j, i, frame[i, j].ToColor());

@@ -2,9 +2,28 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Text;
+using System.Threading;
 
 namespace RendererMath
 {
+    public static class StaticRandom
+    {
+        static int seed = Environment.TickCount;
+
+        static readonly ThreadLocal<Random> random =
+            new ThreadLocal<Random>(() => new Random(Interlocked.Increment(ref seed)));
+
+        public static int Rand()
+        {
+            return random.Value.Next();
+        }
+
+        public static double NextDouble()
+        {
+            return random.Value.NextDouble();
+        }
+
+    }
     public class Vector3
     {
         public virtual double X { get; set; }
@@ -174,9 +193,9 @@ namespace RendererMath
             return Color.FromArgb(R,G,B);
         }
 
-        public static Vector3 Random(Random random)
+        public static Vector3 Random()
         {
-            return new Vector3(random.NextDouble() - 0.5, random.NextDouble() - 0.5, random.NextDouble() - 0.5);
+            return new Vector3(StaticRandom.NextDouble() - 0.5, StaticRandom.NextDouble() - 0.5, StaticRandom.NextDouble() - 0.5);
         }
 
     }
